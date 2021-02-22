@@ -195,6 +195,10 @@ namespace NotYummyAnime
                 entity.Property(e => e.GenreName)
                     .IsRequired()
                     .HasMaxLength(50);
+
+                entity.Property(e => e.Description)
+                   .IsRequired()
+                   .HasColumnType("ntext");
             });
 
             modelBuilder.Entity<Translation>(entity =>

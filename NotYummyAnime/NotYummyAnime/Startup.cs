@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Microsoft.EntityFrameworkCore;
+
 namespace NotYummyAnime
 {
     public class Startup
@@ -23,6 +25,8 @@ namespace NotYummyAnime
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string connection = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<DBLibraryContext>(options => options.UseSqlServer(connection));
             services.AddControllersWithViews();
         }
 
@@ -50,7 +54,7 @@ namespace NotYummyAnime
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Genres}/{action=Index}/{id?}");
             });
         }
     }
