@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -14,10 +15,11 @@ namespace NotYummyAnime
             Animes = new HashSet<Anime>();
         }
 
+        
         public int AnimeInfoId { get; set; }
         public string StudioName { get; set; }
         public string Status { get; set; }
-        public int AgeRating { get; set; }
+        public string AgeRating { get; set; }
         public string Type { get; set; }
         public string Description { get; set; }
         public string Source { get; set; }

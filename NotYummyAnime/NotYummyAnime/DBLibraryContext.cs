@@ -96,7 +96,11 @@ namespace NotYummyAnime
 
                 entity.Property(e => e.Season)
                     .IsRequired()
-                    .HasMaxLength(10);
+                    .HasMaxLength(5);
+
+                entity.Property(e => e.AgeRating)
+                    .IsRequired()
+                    .HasColumnType("ntext");
 
                 entity.Property(e => e.Source)
                     .IsRequired()
@@ -197,7 +201,6 @@ namespace NotYummyAnime
                     .HasMaxLength(50);
 
                 entity.Property(e => e.Description)
-                   .IsRequired()
                    .HasColumnType("ntext");
             });
 
