@@ -9,22 +9,23 @@ using NotYummyAnime;
 
 namespace NotYummyAnime.Controllers
 {
-    public class GenresController : Controller
+    public class AnimesController : Controller
     {
         private readonly DBLibraryContext _context;
 
-        public GenresController(DBLibraryContext context)
+        public AnimesController(DBLibraryContext context)
         {
             _context = context;
         }
 
-        // GET: Genres
-        public async Task<IActionResult> Index()
+        // GET: Animes
+        public async Task<IActionResult> Index(int? id , string? name)
         {
-            return View(await _context.Genres.ToListAsync());
+            var dBLibraryContext = _context.Animes.Include(a => a.AnimeInfo);
+            return View(await dBLibraryContext.ToListAsync());
         }
 
-        // GET: Genres/Details/5
+        // GET: Animes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,41 +33,42 @@ namespace NotYummyAnime.Controllers
                 return NotFound();
             }
 
-            var genre = await _context.Genres
-                .FirstOrDefaultAsync(m => m.GenreId == id);
-            if (genre == null)
+            var anime = await _context.Animes
+                .Include(a => a.AnimeInfo)
+                .FirstOrDefaultAsync(m => m.AnimeId == id);
+            if (anime == null)
             {
                 return NotFound();
             }
 
-
-            //return View(genre);
-            return RedirectToAction("Index", "Animes", new { id = genre.GenreId, name = genre.GenreName });
+            return View(anime);
         }
 
-        // GET: Genres/Create
+        // GET: Animes/Create
         public IActionResult Create()
         {
+            ViewData["AnimeInfoId"] = new SelectList(_context.AnimeInfos, "AnimeInfoId", "Description");
             return View();
         }
 
-        // POST: Genres/Create
+        // POST: Animes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("GenreId,GenreName,Description")] Genre genre)
+        public async Task<IActionResult> Create([Bind("AnimeId,Poster,AnimeName,Rating,AnimeInfoId")] Anime anime)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(genre);
+                _context.Add(anime);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(genre);
+            ViewData["AnimeInfoId"] = new SelectList(_context.AnimeInfos, "AnimeInfoId", "Description", anime.AnimeInfoId);
+            return View(anime);
         }
 
-        // GET: Genres/Edit/5
+        // GET: Animes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -74,22 +76,23 @@ namespace NotYummyAnime.Controllers
                 return NotFound();
             }
 
-            var genre = await _context.Genres.FindAsync(id);
-            if (genre == null)
+            var anime = await _context.Animes.FindAsync(id);
+            if (anime == null)
             {
                 return NotFound();
             }
-            return View(genre);
+            ViewData["AnimeInfoId"] = new SelectList(_context.AnimeInfos, "AnimeInfoId", "Description", anime.AnimeInfoId);
+            return View(anime);
         }
 
-        // POST: Genres/Edit/5
+        // POST: Animes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("GenreId,GenreName,Description")] Genre genre)
+        public async Task<IActionResult> Edit(int id, [Bind("AnimeId,Poster,AnimeName,Rating,AnimeInfoId")] Anime anime)
         {
-            if (id != genre.GenreId)
+            if (id != anime.AnimeId)
             {
                 return NotFound();
             }
@@ -98,12 +101,12 @@ namespace NotYummyAnime.Controllers
             {
                 try
                 {
-                    _context.Update(genre);
+                    _context.Update(anime);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GenreExists(genre.GenreId))
+                    if (!AnimeExists(anime.AnimeId))
                     {
                         return NotFound();
                     }
@@ -114,10 +117,11 @@ namespace NotYummyAnime.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(genre);
+            ViewData["AnimeInfoId"] = new SelectList(_context.AnimeInfos, "AnimeInfoId", "Description", anime.AnimeInfoId);
+            return View(anime);
         }
 
-        // GET: Genres/Delete/5
+        // GET: Animes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,30 +129,31 @@ namespace NotYummyAnime.Controllers
                 return NotFound();
             }
 
-            var genre = await _context.Genres
-                .FirstOrDefaultAsync(m => m.GenreId == id);
-            if (genre == null)
+            var anime = await _context.Animes
+                .Include(a => a.AnimeInfo)
+                .FirstOrDefaultAsync(m => m.AnimeId == id);
+            if (anime == null)
             {
                 return NotFound();
             }
 
-            return View(genre);
+            return View(anime);
         }
 
-        // POST: Genres/Delete/5
+        // POST: Animes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var genre = await _context.Genres.FindAsync(id);
-            _context.Genres.Remove(genre);
+            var anime = await _context.Animes.FindAsync(id);
+            _context.Animes.Remove(anime);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool GenreExists(int id)
+        private bool AnimeExists(int id)
         {
-            return _context.Genres.Any(e => e.GenreId == id);
+            return _context.Animes.Any(e => e.AnimeId == id);
         }
     }
 }

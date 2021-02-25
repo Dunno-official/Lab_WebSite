@@ -180,3 +180,8 @@ D:\Business\Study\Univ\2_course\2_semester\OOP\NotYummyAnime\NotYummyAnime\NotYu
 D:\Business\Study\Univ\2_course\2_semester\OOP\NotYummyAnime\NotYummyAnime\NotYummyAnime\obj\Debug\net5.0\Razor\Views\AnimeGenres\Details.cshtml.g.cs
 D:\Business\Study\Univ\2_course\2_semester\OOP\NotYummyAnime\NotYummyAnime\NotYummyAnime\obj\Debug\net5.0\Razor\Views\AnimeGenres\Edit.cshtml.g.cs
 D:\Business\Study\Univ\2_course\2_semester\OOP\NotYummyAnime\NotYummyAnime\NotYummyAnime\obj\Debug\net5.0\Razor\Views\AnimeGenres\Index.cshtml.g.cs
+D:\Business\Study\Univ\2_course\2_semester\OOP\NotYummyAnime\NotYummyAnime\NotYummyAnime\obj\Debug\net5.0\Razor\Views\Animes\Create.cshtml.g.cs
+D:\Business\Study\Univ\2_course\2_semester\OOP\NotYummyAnime\NotYummyAnime\NotYummyAnime\obj\Debug\net5.0\Razor\Views\Animes\Delete.cshtml.g.cs
+D:\Business\Study\Univ\2_course\2_semester\OOP\NotYummyAnime\NotYummyAnime\NotYummyAnime\obj\Debug\net5.0\Razor\Views\Animes\Details.cshtml.g.cs
+D:\Business\Study\Univ\2_course\2_semester\OOP\NotYummyAnime\NotYummyAnime\NotYummyAnime\obj\Debug\net5.0\Razor\Views\Animes\Edit.cshtml.g.cs
+D:\Business\Study\Univ\2_course\2_semester\OOP\NotYummyAnime\NotYummyAnime\NotYummyAnime\obj\Debug\net5.0\Razor\Views\Animes\Index.cshtml.g.cs

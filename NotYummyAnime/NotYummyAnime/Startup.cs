@@ -54,7 +54,7 @@ namespace NotYummyAnime
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=AnimeGenres}/{action=Index}/{id?}");
+                    pattern: "{controller=Genres}/{action=Index}/{id?}");
             });
         }
     }

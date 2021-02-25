@@ -48,7 +48,7 @@ namespace NotYummyAnime
 
                 entity.Property(e => e.AnimeName)
                     .IsRequired()
-                    .HasMaxLength(30);
+                    .HasMaxLength(70);
 
                 entity.Property(e => e.Poster)
                     .IsRequired()
