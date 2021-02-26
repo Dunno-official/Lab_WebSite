@@ -19,10 +19,18 @@ namespace NotYummyAnime.Controllers
         }
 
         // GET: Animes
-        public async Task<IActionResult> Index(int? id , string? name)
+        public async Task<IActionResult> Index(int? ID , string name)
         {
-            var dBLibraryContext = _context.Animes.Include(a => a.AnimeInfo);
-            return View(await dBLibraryContext.ToListAsync());
+            if (ID == null)
+                return RedirectToAction("Index", "Genres");
+
+            ViewBag.Genre_ID = ID;
+            ViewBag.GenreName = name;
+
+            var animeInfoByGenre = _context.AnimeGenres.Where(ag => ag.GenreId == ID).Select(ag => ag.AnimeInfoId);
+            var animeByGenre = _context.Animes.Where(an => animeInfoByGenre.Contains(an.AnimeInfoId)).Include(an => an.AnimeInfo);
+            
+            return View(await animeByGenre.ToListAsync());
         }
 
         // GET: Animes/Details/5

@@ -6,7 +6,7 @@
 
 <h1>Create</h1>
 
-<h4>AnimeGenre</h4>
+<h4>Додавання аніме до жанру @ViewBag.GenreName</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -20,6 +20,9 @@
                 <label asp-for="GenreId" class="control-label"></label>
                 <select asp-for="GenreId" class ="form-control" asp-items="ViewBag.GenreId"></select>
             </div>
+
+            <input type ="hidden" value="@ViewBag.Genre_ID" name="GenreName" />
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

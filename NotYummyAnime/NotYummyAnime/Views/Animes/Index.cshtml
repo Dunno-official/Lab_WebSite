@@ -4,11 +4,12 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Аніме за категорією "@ViewBag.GenreName"</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    @Html.ActionLink("Додати нове аніме", "Create", "AnimeGenres")
 </p>
+
 <table class="table">
     <thead>
         <tr>

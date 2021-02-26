@@ -41,7 +41,7 @@ namespace NotYummyAnime.Controllers
 
 
             //return View(genre);
-            return RedirectToAction("Index", "Animes", new { id = genre.GenreId, name = genre.GenreName });
+            return RedirectToAction("Index", "Animes", new { ID = id , name = genre.GenreName});
         }
 
         // GET: Genres/Create
