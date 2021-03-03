@@ -46,10 +46,12 @@ namespace NotYummyAnime.Controllers
         }
 
         // GET: AnimeGenres/Create
-        public IActionResult Create()
+        public IActionResult Create(int? genreID, string genreName)
         {
             ViewData["AnimeInfoId"] = new SelectList(_context.AnimeInfos, "AnimeInfoId", "Description");
             ViewData["GenreId"] = new SelectList(_context.Genres, "GenreId", "GenreName");
+            ViewBag.Genre_ID = genreID;
+            ViewBag.GenreName = genreName;
             return View();
         }
 
