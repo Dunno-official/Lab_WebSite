@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\lib\bootstrap_state\**" />
+    <Content Remove="wwwroot\lib\bootstrap_state\**" />
+    <EmbeddedResource Remove="wwwroot\lib\bootstrap_state\**" />
+    <None Remove="wwwroot\lib\bootstrap_state\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
