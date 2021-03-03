@@ -1,8 +1,6 @@
 ﻿@model IEnumerable<NotYummyAnime.Genre>
 
-@{
-    ViewData["Title"] = "Index";
-}
+@{ ViewData["Title"] = "Index"; }
 
 <h1>Index</h1>
 
@@ -22,20 +20,71 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.GenreName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.GenreId">Edit</a> 
-                <a asp-action="Details" asp-route-id="@item.GenreId">Details</a> 
-                <a asp-action="Delete" asp-route-id="@item.GenreId">Delete</a>
-            </td>
-        </tr>
+        @foreach (var item in Model)
+        {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.GenreName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Description)
+    </td>
+    <td>
+        <a asp-action="Edit" asp-route-id="@item.GenreId">Edit</a>
+        <a asp-action="Details" asp-route-id="@item.GenreId">Details</a>
+        <a asp-action="Delete" asp-route-id="@item.GenreId">Delete</a>
+    </td>
+</tr>
 }
     </tbody>
 </table>
+
+
+
+<div class="container">
+    <div id="chart1"></div>
+</div>
+
+<div class="container">
+    <div id="chart2"></div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script>
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart()
+        {
+            $.get('/api/Charts/JsonData', function (JsonDataGenres)
+            {
+                data1 = google.visualization.arrayToDataTable(JsonDataGenres, false);
+                var option1 =
+                {
+                    title: "Співвідношення кількості книжок та категорій",
+                    width: 1100,
+                    height: 400
+                };
+
+                chart1 = new google.visualization.ColumnChart(document.getElementById('chart1'));
+                chart1.draw(data1, option1);
+            })
+
+            $.get('/api/Charts/JsonData', function (JsonDataAnimeAgeRating) {
+                data2 = google.visualization.arrayToDataTable(JsonDataAnimeAgeRating, false);
+                var option2 =
+                {
+                    title: "Співвідношення кількості аніме та вікових категорій",
+                    width: 1100,
+                    height: 400
+                };
+
+                chart2 = new google.visualization.ColumnChart(document.getElementById('chart2'));
+                chart2.draw(data2, option2);
+            })
+        }
+    </script>
+}
