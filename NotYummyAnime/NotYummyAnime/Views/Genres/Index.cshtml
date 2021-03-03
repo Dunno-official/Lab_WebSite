@@ -73,7 +73,7 @@
                 chart1.draw(data1, option1);
             })
 
-            $.get('/api/Charts/JsonData', function (JsonDataAnimeAgeRating) {
+            $.get('/api/Charts/JsonDataAnimeAgeRating', function (JsonDataAnimeAgeRating) {
                 data2 = google.visualization.arrayToDataTable(JsonDataAnimeAgeRating, false);
                 var option2 =
                 {
@@ -82,7 +82,7 @@
                     height: 400
                 };
 
-                chart2 = new google.visualization.ColumnChart(document.getElementById('chart2'));
+                chart2 = new google.visualization.PieChart(document.getElementById('chart2'));
                 chart2.draw(data2, option2);
             })
         }

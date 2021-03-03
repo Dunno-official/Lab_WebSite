@@ -41,15 +41,18 @@ namespace NotYummyAnime.Controllers
         [HttpGet("JsonDataAnimeAgeRating")]
         public JsonResult JsonDataAnimeAgeRating()
         {
-            var ageRatings = _context.AnimeInfos.Include(an => an.AgeRating).ToList();
-
+            List<string> ageRatings = _context.AnimeInfos.Select(an => an.AgeRating).ToList();
+            ageRatings = ageRatings.Distinct().ToList();
+            
+            List<AnimeInfo> animeInfoes = _context.AnimeInfos.ToList();
             List<object> agRat = new List<object>();
 
-            agRat.Add(new[] { "Жанр", "Кількість аніме" });
+            agRat.Add(new[] { "Вікова категорія", "Кількість аніме" });
 
             foreach (var ag in ageRatings)
             {
-                agRat.Add(new object[] { ag.AgeRating, _context.AnimeInfos.Count() });
+                int numOfAnime = animeInfoes.Count(an => an.AgeRating == ag);
+                agRat.Add(new object[] { ag, numOfAnime });
             }
 
             return new JsonResult(agRat);
