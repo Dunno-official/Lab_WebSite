@@ -139,7 +139,24 @@ namespace NotYummyAnime.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var animeInfo = await _context.AnimeInfos.FindAsync(id);
+
+            Anime anime = _context.Animes.Where(an => an.AnimeInfoId == id).FirstOrDefault();
+            _context.Animes.Remove(anime);
+
+            foreach(Genre genre in _context.Genres)
+            {
+                var anGenToBeRemoved = genre.AnimeGenres.Where(anGen => anGen.AnimeInfoId == id);
+                
+                foreach (AnimeGenre anGenre in anGenToBeRemoved)
+                {
+                    genre.AnimeGenres.Remove(anGenre);
+                }
+            }
+
+            var anGen = _context.AnimeGenres.Where(ag => ag.AnimeInfoId == id);
+            _context.AnimeGenres.RemoveRange(anGen);
             _context.AnimeInfos.Remove(animeInfo);
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

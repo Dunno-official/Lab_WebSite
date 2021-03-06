@@ -200,6 +200,8 @@ namespace NotYummyAnime.Controllers
                 if (_context.Animes.Any(an => an.AnimeName == anime.AnimeName) == false) // if anime is already exists
                 {
                     int animeInfoID = AddAnime(anime, animeInfo);
+                    SetGenres(genres, animeInfoID);
+                    _context.SaveChanges();
                 }
             }
         }
@@ -210,31 +212,65 @@ namespace NotYummyAnime.Controllers
             int newAnimeInfoID;
 
             _context.AnimeInfos.Add(animeInfo);
-            newAnimeInfoID = _context.AnimeInfos.Last().AnimeInfoId;
-
+            _context.SaveChanges();
+            newAnimeInfoID = animeInfo.AnimeInfoId;
+            
             anime.AnimeInfoId = newAnimeInfoID;
             anime.AnimeInfo = animeInfo;
+
+            _context.Animes.Add(anime);
 
             return newAnimeInfoID;
         }
 
 
-        private void AddNewGenres(string[] genres)
+        private void SetGenres(string[] genres , int animeInfoID)
         {
-            var currentGenresName = _context.Genres.Select(genre => genre.GenreName);
-            var newGenres = genres.Except(currentGenresName);
+            int genreID;
+            Genre genre = new Genre();
+            AnimeInfo animeInfo = _context.AnimeInfos.Find(animeInfoID);
+            AnimeGenre animeGenre = new AnimeGenre();
 
-            foreach (string newGenreName in newGenres)
+            animeGenre.AnimeInfo = animeInfo;
+            animeGenre.AnimeInfoId = animeInfoID;
+
+            foreach (string genreName in genres)
             {
-                _context.Genres.Add(new Genre { GenreName = newGenreName });
-                int newGenreID = _context.Genres.Last().GenreId;
+                if (GenreExists(genreName) == false)
+                {
+                    genre = new Genre { GenreName = genreName };
+                    _context.Genres.Add(genre);
+                    _context.SaveChanges();
+                    genreID = genre.GenreId;
+                }
+                
+                else
+                {
+                    genre = GetGenre(genreName);
+                    genreID = genre.GenreId;
+                }
+
+                animeGenre.Genre = genre;
+                animeGenre.GenreId = genreID;
+
+                _context.AnimeGenres.Add(animeGenre);
             }
         }
 
 
+        private Genre GetGenre(string genreName)
+        {
+            return _context.Genres.Where(gen => gen.GenreName == genreName).FirstOrDefault();
+        }
+
         private bool GenreExists(int id)
         {
             return _context.Genres.Any(e => e.GenreId == id);
+        }
+
+        private bool GenreExists(string genreName)
+        {
+            return _context.Genres.Any(gen => gen.GenreName == genreName);
         }
     }
 }
