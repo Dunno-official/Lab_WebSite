@@ -210,15 +210,17 @@ namespace NotYummyAnime.Controllers
         private int AddAnime(Anime anime , AnimeInfo animeInfo)
         {
             int newAnimeInfoID;
+            animeInfo.Animes.Add(anime);
+            anime.AnimeInfo = animeInfo;
 
             _context.AnimeInfos.Add(animeInfo);
             _context.SaveChanges();
             newAnimeInfoID = animeInfo.AnimeInfoId;
             
             anime.AnimeInfoId = newAnimeInfoID;
-            anime.AnimeInfo = animeInfo;
 
             _context.Animes.Add(anime);
+           // _context.SaveChanges();
 
             return newAnimeInfoID;
         }
@@ -227,7 +229,7 @@ namespace NotYummyAnime.Controllers
         private void SetGenres(string[] genres , int animeInfoID)
         {
             int genreID;
-            Genre genre = new Genre();
+            Genre genre;
             AnimeInfo animeInfo = _context.AnimeInfos.Find(animeInfoID);
             AnimeGenre animeGenre = new AnimeGenre();
 
@@ -254,7 +256,12 @@ namespace NotYummyAnime.Controllers
                 animeGenre.GenreId = genreID;
 
                 _context.AnimeGenres.Add(animeGenre);
+                //_context.SaveChanges();
+                genre.AnimeGenres.Add(animeGenre);
+                animeInfo.AnimeGenres.Add(animeGenre);
+                //_context.SaveChanges();
             }
+            
         }
 
 
