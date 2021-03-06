@@ -185,3 +185,7 @@ D:\Business\Study\Univ\2_course\2_semester\OOP\NotYummyAnime\NotYummyAnime\NotYu
 D:\Business\Study\Univ\2_course\2_semester\OOP\NotYummyAnime\NotYummyAnime\NotYummyAnime\obj\Debug\net5.0\Razor\Views\Animes\Details.cshtml.g.cs
 D:\Business\Study\Univ\2_course\2_semester\OOP\NotYummyAnime\NotYummyAnime\NotYummyAnime\obj\Debug\net5.0\Razor\Views\Animes\Edit.cshtml.g.cs
 D:\Business\Study\Univ\2_course\2_semester\OOP\NotYummyAnime\NotYummyAnime\NotYummyAnime\obj\Debug\net5.0\Razor\Views\Animes\Index.cshtml.g.cs
+D:\Business\Study\Univ\2_course\2_semester\OOP\NotYummyAnime\NotYummyAnime\NotYummyAnime\bin\Debug\net5.0\ClosedXML.dll
+D:\Business\Study\Univ\2_course\2_semester\OOP\NotYummyAnime\NotYummyAnime\NotYummyAnime\bin\Debug\net5.0\DocumentFormat.OpenXml.dll
+D:\Business\Study\Univ\2_course\2_semester\OOP\NotYummyAnime\NotYummyAnime\NotYummyAnime\bin\Debug\net5.0\ExcelNumberFormat.dll
+D:\Business\Study\Univ\2_course\2_semester\OOP\NotYummyAnime\NotYummyAnime\NotYummyAnime\bin\Debug\net5.0\System.IO.Packaging.dll

@@ -55,6 +55,9 @@ namespace NotYummyAnime.Controllers
                 agRat.Add(new object[] { ag, numOfAnime });
             }
 
+            Range a = new Range(new Index(1 , true), 2);
+            
+
             return new JsonResult(agRat);
         }
 

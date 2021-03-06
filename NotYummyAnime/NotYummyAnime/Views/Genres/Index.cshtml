@@ -7,6 +7,34 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<p><br></p>
+<div>
+    <h3>Оберіть exel-файл для заватаження</h3>
+    @using (Html.BeginForm("Import", "Genres", FormMethod.Post, new { enctype = "multipart/form-data", id = "frm-excel" }))
+    {
+        <div>
+            Завантажте Excel-файл:
+            <input type="file" name="fileExcel" id="fileExcel" />
+            <div>
+                <input type="submit" value="Завантажити" />
+            </div>
+        </div>
+    }
+</div>
+
+<p><br></p>
+
+<div>
+    <h3>Завантаження інформацію в файл</h3>
+    <a asp-action="Export">Завантажити</a>
+</div>
+
+<p><br></p>
+<p><br></p>
+
+
+
 <table class="table">
     <thead>
         <tr>
@@ -34,8 +62,7 @@
         <a asp-action="Details" asp-route-id="@item.GenreId">Details</a>
         <a asp-action="Delete" asp-route-id="@item.GenreId">Delete</a>
     </td>
-</tr>
-}
+</tr>}
     </tbody>
 </table>
 
@@ -57,10 +84,8 @@
         google.charts.load('current', { 'packages': ['corechart'] });
         google.charts.setOnLoadCallback(drawChart);
 
-        function drawChart()
-        {
-            $.get('/api/Charts/JsonData', function (JsonDataGenres)
-            {
+        function drawChart() {
+            $.get('/api/Charts/JsonData', function (JsonDataGenres) {
                 data1 = google.visualization.arrayToDataTable(JsonDataGenres, false);
                 var option1 =
                 {
