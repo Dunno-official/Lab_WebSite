@@ -3,7 +3,7 @@
 @{ ViewData["Title"] = "Index"; }
 
 <h1>Index</h1>
-
+@*color: rgb(20, 235, 219)*@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -13,7 +13,7 @@
 
 <p><br></p>
 <div>
-    <h3>Оберіть exel-файл для заватаження</h3>
+    <h3 style="color: rgb(32, 193, 255)">Заватаження Excel-файлу</h3>
     @using (Html.BeginForm("Import", "Genres", FormMethod.Post, new { enctype = "multipart/form-data", id = "frm-excel" }))
     {
         <div>
@@ -29,7 +29,7 @@
 <p><br></p>
 
 <div>
-    <h3>Завантаження інформацію в файл</h3>
+    <h3 style="color: rgb(32, 193, 255)">Завантаження інформації у файл</h3>
     <a asp-action="Export">Завантажити</a>
 </div>
 

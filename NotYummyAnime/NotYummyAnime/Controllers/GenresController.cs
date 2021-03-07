@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Drawing.ChartDrawing;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -211,14 +212,11 @@ namespace NotYummyAnime.Controllers
         private int AddAnime(Anime anime , AnimeInfo animeInfo)
         {
             int newAnimeInfoID;
-            animeInfo.Animes.Add(anime);
 
-            animeInfo.AnimeInfoId = 0;
             _context.AnimeInfos.Add(animeInfo);
             _context.SaveChanges();
             newAnimeInfoID = animeInfo.AnimeInfoId;
 
-            anime.AnimeId = 0;
             anime.AnimeInfo = animeInfo;
             anime.AnimeInfoId = newAnimeInfoID;
 
@@ -260,6 +258,57 @@ namespace NotYummyAnime.Controllers
                 animeInfo.AnimeGenres.Add(animeGenre);
             }
         }
+
+
+
+        public ActionResult Export()
+        {
+            using (XLWorkbook workbook = new XLWorkbook(XLEventTracking.Disabled))
+            {
+                var genres = _context.Genres.ToList();
+                IXLWorksheet worksheet = workbook.Worksheets.Add("Animes");
+
+                InitializeWorksheet(ref worksheet);
+                WriteDataToFile(ref worksheet);
+                
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    stream.Flush();
+
+                    return new FileContentResult(stream.ToArray(),
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                    {
+                        FileDownloadName = $"library_{DateTime.UtcNow.ToShortDateString()}.xlsx"
+                    };
+                }
+            }
+        }
+
+
+        private void InitializeWorksheet(ref IXLWorksheet worksheet)
+        {
+            worksheet.Cell("A1").Value = "Poster";
+            worksheet.Cell("B1").Value = "AnimeName";
+            worksheet.Cell("C1").Value = "Rating";
+            worksheet.Cell("D1").Value = "StudioName";
+            worksheet.Cell("E1").Value = "Status";
+            worksheet.Cell("F1").Value = "AgeRating";
+            worksheet.Cell("G1").Value = "Type";
+            worksheet.Cell("H1").Value = "Description";
+            worksheet.Cell("I1").Value = "Source";
+            worksheet.Cell("J1").Value = "Season";
+            worksheet.Cell("K1").Value = "Genres";
+            worksheet.Row(1).Style.Font.Bold = true;
+            //worksheet.Row(1).Style.Alignment 
+        }
+
+
+        private void WriteDataToFile(ref IXLWorksheet worksheet)
+        {
+           
+        }
+
 
 
         private Genre GetGenre(string genreName)
