@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NotYummyAnime;
 
+
 namespace NotYummyAnime.Controllers
 {
     public class GenresController : Controller
@@ -267,8 +268,8 @@ namespace NotYummyAnime.Controllers
             {
                 var genres = _context.Genres.ToList();
                 IXLWorksheet worksheet = workbook.Worksheets.Add("Animes");
-
-                InitializeWorksheet(ref worksheet);
+                
+                InitializeWorksheet(worksheet);
                 WriteDataToFile(ref worksheet);
                 
                 using (var stream = new MemoryStream())
@@ -286,27 +287,63 @@ namespace NotYummyAnime.Controllers
         }
 
 
-        private void InitializeWorksheet(ref IXLWorksheet worksheet)
+        private void InitializeWorksheet(IXLWorksheet worksheet)
         {
-            worksheet.Cell("A1").Value = "Poster";
-            worksheet.Cell("B1").Value = "AnimeName";
-            worksheet.Cell("C1").Value = "Rating";
-            worksheet.Cell("D1").Value = "StudioName";
-            worksheet.Cell("E1").Value = "Status";
-            worksheet.Cell("F1").Value = "AgeRating";
-            worksheet.Cell("G1").Value = "Type";
-            worksheet.Cell("H1").Value = "Description";
-            worksheet.Cell("I1").Value = "Source";
-            worksheet.Cell("J1").Value = "Season";
-            worksheet.Cell("K1").Value = "Genres";
+            void SetColumn(string columnIndex , string columnName , float columnWidth)
+            {
+                worksheet.Cell(columnIndex).Value = columnName;
+                worksheet.Column(columnIndex[0] - 'A' + 1).Width = columnWidth; // 'A' -> 1  ;  'C' -> 3
+            }
+
+            SetColumn("A1", "Poster", 8.11f);
+            SetColumn("B1", "AnimeName", 36.8f);
+            SetColumn("C1", "Rating", 8.11f);
+            SetColumn("D1", "StudioName", 16.5f);
+            SetColumn("E1", "Status", 12.8f);
+            SetColumn("F1", "AgeRating", 40.7f );
+            SetColumn("G1", "Type", 25f );
+            SetColumn("H1", "Description", 19.2f );
+            SetColumn("I1", "Source", 10.8f );
+            SetColumn("J1", "Season", 10.1f );
+            SetColumn("K1", "Genres", 10.4f);
+
             worksheet.Row(1).Style.Font.Bold = true;
-            //worksheet.Row(1).Style.Alignment 
+            worksheet.Columns(1 , 11).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+            worksheet.Column(8).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+            worksheet.Column(11).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+            worksheet.Range("A1" , "K1").Style.Fill.BackgroundColor = XLColor.FromArgb(112, 173, 71);
         }
 
 
         private void WriteDataToFile(ref IXLWorksheet worksheet)
         {
-           
+            var allAnime = _context.Animes.ToList();
+            var allAnimeInfo = _context.AnimeInfos.ToList();
+            string genres;
+
+            for (int i = 0; i < _context.Animes.Count(); ++i)
+            {
+                // all genres to which this anime belongs
+                IQueryable<string> genresNames = _context.AnimeGenres.Where(aG => aG.AnimeInfoId == allAnimeInfo[i].AnimeInfoId).
+                                                       Select(ag => ag.Genre.GenreName);
+                genres = "";
+                foreach (string genre in genresNames)
+                    genres += genre + ',';
+
+                genres = genres.Remove(genres.Length - 1); // delete last ','
+
+                worksheet.Cell(i + 2, 1).Value = allAnime[i].Poster;
+                worksheet.Cell(i + 2, 2).Value = allAnime[i].AnimeName;
+                worksheet.Cell(i + 2, 3).Value = allAnime[i].Rating;
+                worksheet.Cell(i + 2, 4).Value = allAnimeInfo[i].StudioName;
+                worksheet.Cell(i + 2, 5).Value = allAnimeInfo[i].Status;
+                worksheet.Cell(i + 2, 6).Value = allAnimeInfo[i].AgeRating;
+                worksheet.Cell(i + 2, 7).Value = allAnimeInfo[i].Type;
+                worksheet.Cell(i + 2, 8).Value = allAnimeInfo[i].Description;
+                worksheet.Cell(i + 2, 9).Value = allAnimeInfo[i].Source;
+                worksheet.Cell(i + 2, 10).Value = allAnimeInfo[i].Season;
+                worksheet.Cell(i + 2, 11).Value = genres;
+            }
         }
 
 
