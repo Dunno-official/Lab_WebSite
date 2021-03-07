@@ -140,8 +140,8 @@ namespace NotYummyAnime.Controllers
         {
             var animeInfo = await _context.AnimeInfos.FindAsync(id);
 
-            Anime anime = _context.Animes.Where(an => an.AnimeInfoId == id).FirstOrDefault();
-            _context.Animes.Remove(anime);
+            var animes = _context.Animes.Where(an => an.AnimeInfoId == id);
+            _context.Animes.RemoveRange(animes);
 
             foreach(Genre genre in _context.Genres)
             {

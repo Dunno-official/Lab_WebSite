@@ -177,12 +177,13 @@ namespace NotYummyAnime.Controllers
 
         private void ReadAnime(IEnumerable<IXLRangeRow> rows)
         {
-            Anime anime = new Anime(); 
-            AnimeInfo animeInfo = new AnimeInfo();
             string[] genres;
 
             foreach (var row in rows)
             {
+                Anime anime = new Anime();
+                AnimeInfo animeInfo = new AnimeInfo();
+
                 anime.Poster = row.Cell(1).Value.ToString();
                 anime.AnimeName = row.Cell(2).Value.ToString();
                 anime.Rating = Convert.ToInt32(row.Cell(3).Value);
@@ -200,7 +201,7 @@ namespace NotYummyAnime.Controllers
                 if (_context.Animes.Any(an => an.AnimeName == anime.AnimeName) == false) // if anime is already exists
                 {
                     int animeInfoID = AddAnime(anime, animeInfo);
-                    SetGenres(genres, animeInfoID);
+                    DistributeGenres(genres, animeInfoID);
                     _context.SaveChanges();
                 }
             }
@@ -211,57 +212,53 @@ namespace NotYummyAnime.Controllers
         {
             int newAnimeInfoID;
             animeInfo.Animes.Add(anime);
-            anime.AnimeInfo = animeInfo;
 
+            animeInfo.AnimeInfoId = 0;
             _context.AnimeInfos.Add(animeInfo);
             _context.SaveChanges();
             newAnimeInfoID = animeInfo.AnimeInfoId;
-            
+
+            anime.AnimeId = 0;
+            anime.AnimeInfo = animeInfo;
             anime.AnimeInfoId = newAnimeInfoID;
 
             _context.Animes.Add(anime);
-           // _context.SaveChanges();
+            _context.SaveChanges();
 
             return newAnimeInfoID;
         }
 
 
-        private void SetGenres(string[] genres , int animeInfoID)
+        private void DistributeGenres(string[] genres , int animeInfoID)
         {
-            int genreID;
             Genre genre;
             AnimeInfo animeInfo = _context.AnimeInfos.Find(animeInfoID);
-            AnimeGenre animeGenre = new AnimeGenre();
-
-            animeGenre.AnimeInfo = animeInfo;
-            animeGenre.AnimeInfoId = animeInfoID;
 
             foreach (string genreName in genres)
             {
+                AnimeGenre animeGenre = new AnimeGenre { AnimeInfo = animeInfo, AnimeInfoId = animeInfoID };
+
                 if (GenreExists(genreName) == false)
                 {
                     genre = new Genre { GenreName = genreName };
                     _context.Genres.Add(genre);
                     _context.SaveChanges();
-                    genreID = genre.GenreId;
                 }
                 
                 else
                 {
                     genre = GetGenre(genreName);
-                    genreID = genre.GenreId;
                 }
 
                 animeGenre.Genre = genre;
-                animeGenre.GenreId = genreID;
+                animeGenre.GenreId = genre.GenreId;
 
                 _context.AnimeGenres.Add(animeGenre);
-                //_context.SaveChanges();
+                _context.SaveChanges();
+
                 genre.AnimeGenres.Add(animeGenre);
                 animeInfo.AnimeGenres.Add(animeGenre);
-                //_context.SaveChanges();
             }
-            
         }
 
 
