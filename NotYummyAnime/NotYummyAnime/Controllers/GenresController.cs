@@ -163,12 +163,17 @@ namespace NotYummyAnime.Controllers
             {
                 await fileExcel.CopyToAsync(stream);
 
-                using (XLWorkbook workBook = new XLWorkbook(stream, XLEventTracking.Disabled))
+                try
                 {
-                    var worksheet = workBook.Worksheet(1);
-                    var rows = worksheet.RangeUsed().RowsUsed().Skip(1);
-                    ReadAnime(rows);
+                    using (XLWorkbook workBook = new XLWorkbook(stream, XLEventTracking.Disabled))
+                    {
+
+                        var worksheet = workBook.Worksheet(1);
+                        var rows = worksheet.RangeUsed().RowsUsed().Skip(1);
+                        ReadAnime(rows);
+                    }
                 }
+                catch { }
 
                 await _context.SaveChangesAsync();
             }
