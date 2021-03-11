@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ClosedXML.Excel;
 using DocumentFormat.OpenXml.Drawing.ChartDrawing;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,6 +15,7 @@ using NotYummyAnime;
 
 namespace NotYummyAnime.Controllers
 {
+    [Authorize(Roles ="admin , user")]
     public class GenresController : Controller
     {
         private readonly DBLibraryContext _context;
