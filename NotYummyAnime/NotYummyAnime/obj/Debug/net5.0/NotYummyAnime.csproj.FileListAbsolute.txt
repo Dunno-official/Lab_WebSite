@@ -194,3 +194,5 @@ D:\Business\Study\Univ\2_course\2_semester\OOP\NotYummyAnime\NotYummyAnime\NotYu
 D:\Business\Study\Univ\2_course\2_semester\OOP\NotYummyAnime\NotYummyAnime\NotYummyAnime\bin\Debug\net5.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 D:\Business\Study\Univ\2_course\2_semester\OOP\NotYummyAnime\NotYummyAnime\NotYummyAnime\bin\Debug\net5.0\Microsoft.Extensions.Identity.Core.dll
 D:\Business\Study\Univ\2_course\2_semester\OOP\NotYummyAnime\NotYummyAnime\NotYummyAnime\bin\Debug\net5.0\Microsoft.Extensions.Identity.Stores.dll
+D:\Business\Study\Univ\2_course\2_semester\OOP\NotYummyAnime\NotYummyAnime\NotYummyAnime\obj\Debug\net5.0\Razor\Views\Account\Register.cshtml.g.cs
+D:\Business\Study\Univ\2_course\2_semester\OOP\NotYummyAnime\NotYummyAnime\NotYummyAnime\obj\Debug\net5.0\Razor\Views\Account\Login.cshtml.g.cs
