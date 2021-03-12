@@ -8,8 +8,14 @@
     <p>@User.Identity.Name</p>
 
     <form method="post" asp-controller="Account" asp-action="Logout">
-        <p><a asp-controller="Genres" asp-action="Index">Перейти до картотеки</a></p>
-            <input type="submit" value="Вихід" />
+
+        @if (User.IsInRole("admin"))
+        {
+            <p><a asp-controller="Genres" asp-action="Index">Перейти до картотеки</a></p>
+        }
+
+        <input type="submit" value="Вихід" />
+
     </form>
 }
 
