@@ -99,5 +99,13 @@ namespace NotYummyAnime.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Genres");
         }
+
+        [HttpGet]
+        public IActionResult Verification(string pseudoHash)
+        {
+            ViewBag.PseudoHash = pseudoHash;
+            //https://localhost:44314/Account/Verification?pseudoHash=egjhjbmznbvnbxcv
+            return View();
+        }
     }
 }
