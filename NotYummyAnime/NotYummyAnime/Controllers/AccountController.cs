@@ -10,11 +10,13 @@ namespace NotYummyAnime.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly DBLibraryContext _context;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager , DBLibraryContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
         }
 
 
@@ -97,7 +99,7 @@ namespace NotYummyAnime.Controllers
         {
             // видаляємо аутентифікаційні куки
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Genres");
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
@@ -105,7 +107,9 @@ namespace NotYummyAnime.Controllers
         {
             ViewBag.PseudoHash = pseudoHash;
             //https://localhost:44314/Account/Verification?pseudoHash=egjhjbmznbvnbxcv
+            
             return View();
+            
         }
     }
 }
