@@ -9,5 +9,7 @@ namespace NotYummyAnime.Models
     public class User : IdentityUser
     {
         public int Year { get; set; }
+        public string Hash { get; set; }
+        public bool IsVerified { get; set; }
     }
 }

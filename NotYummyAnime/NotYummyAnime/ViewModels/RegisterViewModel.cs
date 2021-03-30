@@ -14,7 +14,8 @@ namespace NotYummyAnime.ViewModels
         public string Email { get; set; }
 
         [Required]
-        [Display(Name = "Рік народження")]
+        [Range(18, 100 , ErrorMessage ="Wrong age")]
+        [Display(Name = "Вік")]
         public int Year { get; set; }
 
         [Required]

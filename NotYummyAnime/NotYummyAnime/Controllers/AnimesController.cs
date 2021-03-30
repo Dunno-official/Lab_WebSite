@@ -66,6 +66,7 @@ namespace NotYummyAnime.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("AnimeId,Poster,AnimeName,Rating,AnimeInfoId")] Anime anime)
         {
+            
             if (ModelState.IsValid)
             {
                 _context.Add(anime);

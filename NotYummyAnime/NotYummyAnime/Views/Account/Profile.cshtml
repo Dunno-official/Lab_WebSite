@@ -1,0 +1,35 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@model UserManager<User>;
+
+@{ ViewData["Title"] = "Лабораторна робота з ІСтаТП 2020. Аніме-картотека";}
+
+
+@if (User.Identity.IsAuthenticated)
+{
+    if (Model.FindByNameAsync(User.Identity.Name).Result.IsVerified == false)
+    {
+        <h1>@User.Identity.Name: NonVerifiedAccount</h1>
+        <h2>Please, check your email to verify your account</h2>
+    }
+
+    else
+    {
+        <p>@User.Identity.Name</p>
+    }
+
+    <form method="post" asp-action="Logout">
+
+        @if (User.IsInRole("admin"))
+        {
+            <p><a asp-controller="Genres" asp-action="Index">Перейти до картотеки</a></p>
+        }
+
+        <input type="submit" value="Вихід" />
+    </form>
+}
+
+else
+{
+    <h1 align="center"><a asp-action="Login">Вхід</a></h1>
+    <h1 align="center"><a asp-action="Register">Реєстрація</a></h1>
+}

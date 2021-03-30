@@ -4,19 +4,18 @@ using Microsoft.AspNetCore.Identity;
 using NotYummyAnime.ViewModels;
 using NotYummyAnime.Models;
 
+
 namespace NotYummyAnime.Controllers
 {
     public class AccountController : Controller
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly DBLibraryContext _context;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager , DBLibraryContext context)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _context = context;
         }
 
 
@@ -32,15 +31,22 @@ namespace NotYummyAnime.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = new User { Email = model.Email, UserName = model.Email, Year = model.Year };
+                User user = new User
+                {
+                    Email = model.Email,
+                    UserName = model.Email,
+                    Year = model.Year,
+                    Hash = Tools.Verification.GenerateHash()
+                };
                 // додаємо користувача
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
                 {
-                    // установка кукі
                     await _signInManager.SignInAsync(user, false);
-                    return RedirectToAction("Index", "Home");
+                    Tools.Verification.SendVerificationMessage(user.Id , user.Hash , model.Email);
+
+                    return RedirectToAction("Profile");
                 }
 
                 else
@@ -81,7 +87,7 @@ namespace NotYummyAnime.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Profile");
                     }
                 }
                 else
@@ -99,17 +105,34 @@ namespace NotYummyAnime.Controllers
         {
             // видаляємо аутентифікаційні куки
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Profile");
         }
 
+
         [HttpGet]
-        public IActionResult Verification(string pseudoHash)
+        public async Task<IActionResult> Verification(string id , string hash)
         {
-            ViewBag.PseudoHash = pseudoHash;
-            //https://localhost:44314/Account/Verification?pseudoHash=egjhjbmznbvnbxcv
-            
+            var user = _userManager.FindByIdAsync(id).Result;
+            bool verificationSucceeded = (user.Hash == hash);
+
+            ViewBag.PseudoHash = hash;
+            ViewBag.ID = id;
+            ViewBag.VerificationSucceeded = verificationSucceeded;
+
+            if (verificationSucceeded == true)
+            {
+                user.IsVerified = true;
+                await _userManager.UpdateAsync(user);
+            }
+
             return View();
-            
+        }
+
+
+        [HttpGet]
+        public IActionResult Profile()
+        {
+            return View(_userManager);
         }
     }
 }

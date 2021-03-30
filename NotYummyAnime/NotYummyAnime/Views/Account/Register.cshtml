@@ -2,6 +2,7 @@
 
 @{ ViewData["Title"] = "Registration"; }
 
+
 <h2>Реєстрація нового користувача</h2>
 
 <form method="post" asp-controller="Account" asp-action="Register">
@@ -27,6 +28,7 @@
         <span asp-validation-for="PasswordConfirm"></span>
     </div>
     <div>
+        <br>
         <input type="submit" value="Реєстрація" />
     </div>
 </form>

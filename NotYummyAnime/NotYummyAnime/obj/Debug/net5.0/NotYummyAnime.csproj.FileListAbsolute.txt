@@ -200,3 +200,4 @@ D:\Business\Study\Univ\2_course\2_semester\OOP\NotYummyAnime\NotYummyAnime\NotYu
 D:\Business\Study\Univ\2_course\2_semester\OOP\NotYummyAnime\NotYummyAnime\NotYummyAnime\obj\Debug\net5.0\Razor\Views\Roles\UserList.cshtml.g.cs
 D:\Business\Study\Univ\2_course\2_semester\OOP\NotYummyAnime\NotYummyAnime\NotYummyAnime\obj\Debug\net5.0\Razor\Views\Roles\Edit.cshtml.g.cs
 D:\Business\Study\Univ\2_course\2_semester\OOP\NotYummyAnime\NotYummyAnime\NotYummyAnime\obj\Debug\net5.0\Razor\Views\Account\Verification.cshtml.g.cs
+D:\Business\Study\Univ\2_course\2_semester\OOP\NotYummyAnime\NotYummyAnime\NotYummyAnime\obj\Debug\net5.0\Razor\Views\Account\Profile.cshtml.g.cs

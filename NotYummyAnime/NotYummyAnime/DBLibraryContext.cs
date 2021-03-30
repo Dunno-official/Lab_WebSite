@@ -25,7 +25,6 @@ namespace NotYummyAnime
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<Genre> Genres { get; set; }
         public virtual DbSet<Translation> Translations { get; set; }
-        public virtual DbSet<Translation> HashTable { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
